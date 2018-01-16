@@ -1,0 +1,20 @@
+spring:
+  profiles.active: default
+
+---
+spring:
+  profiles: default
+  jmx.enabled: false
+  
+example:
+  scheduledJob: 
+    enabled: false
+  incoming:
+    comments:
+      dir: /tmp/comments
+
+network:
+  path:
+    in: /tmp/comments/
+    out: /tmp/out
+  poolCount: 5
