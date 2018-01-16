@@ -8,7 +8,7 @@ spring:
   
 example:
   scheduledJob: 
-    enabled: false
+    enabled: true
   incoming:
     comments:
       dir: /tmp/comments

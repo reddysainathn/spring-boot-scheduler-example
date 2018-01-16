@@ -1,6 +1,7 @@
 package com.sample.filecopy.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -28,7 +29,6 @@ public class MoveFilesScheduler {
 
     private Integer countFilesMoved;
 
-    //@Scheduled(fixedRate = 10000)
     public String moveFiles() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
@@ -41,14 +41,36 @@ public class MoveFilesScheduler {
         }
     }
 
+    @Scheduled(fixedRate = 20000)
+    public void moveFilesScheduled() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        try {
+            // int count = (int)Files.list(Paths.get(systemPath)).count();
+            getAllThreads(getAllFileNames());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<String> getAllFileNames() {
         List<String> results = new ArrayList<String>();
-        File[] files = new File(systemInPath).listFiles();
-        for (File file : files) {
-            if (file.isFile()) {
-                results.add(file.getName());
+        try{
+            File[] files = new File(systemInPath).listFiles();
+            if(files.length>0){
+                for (File file : files) {
+                    if (file.isFile()) {
+                        results.add(file.getName());
+                    }
+                }
+            }else{
+                System.out.println("Nothing to Move");
             }
+
+        }catch (NullPointerException e){
+            e.printStackTrace();
         }
+
         return results;
     }
 
